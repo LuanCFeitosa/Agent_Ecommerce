@@ -137,7 +137,16 @@ O agente responde a dúvidas gerais baseadas nos documentos indexados:
 * *"Como funciona a política de troca e devolução?"*
 ---
 
-## 💬 Exemplos de Respostas Geradas
+## 💬 Exemplos do APP e de Respostas Geradas
+
+<img width="1302" height="691" alt="image" src="https://github.com/user-attachments/assets/816b0528-bdb7-4c8e-a025-5e9be4d6ad9c" />
+
+<img width="1303" height="681" alt="image" src="https://github.com/user-attachments/assets/9f4e495c-d236-43cb-8d99-a8c35ab5295c" />
+
+## Link da Cloud:
+* https://agentecommerceoci.streamlit.app
+
+
 
 
 
