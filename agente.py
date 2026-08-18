@@ -89,5 +89,7 @@ orquestrador = AgentExecutor(
     agent=agente,
     tools=tools,
     verbose=True,
-    handle_parsing_errors=True
+    handle_parsing_errors=True,
+    max_iterations=3,  # Força o agente a parar após 3 tentativas
+    max_execution_time=30  # Interrompe em 30 segundos se travar
 )
