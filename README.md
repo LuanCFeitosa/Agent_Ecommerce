@@ -17,6 +17,9 @@ projeto-ecommerce/
 ├── my_keys.py
 ├── my_models.py
 │
+└── vectorstore/
+│   └── index.faiss
+│   └── index.pkl
 └── dados/
     └── catalogo.pdf
 
@@ -66,7 +69,7 @@ O sistema opera com dois fluxos **distintos e complementares** e interface
 ```
 
 1. **Fluxo de Ingestion (Upload Dinâmico):**
-   * O arquivo `dados/FAQ.pdf` é processado na inicialização.
+   * O arquivo `dados/FAQ.pdf` já foi processado pela `criar_vectorstore` e salva na pasta `vecstore`.
    * O usuário pode enviar novos PDFs através do `file_uploader`.
    * O arquivo é divido em *chunks* (`RecursiveCharacterTextSplitter`), transformado em vetores (`GoogleGenerativeAIEmbeddings`) e adicionado ao índice **FAISS** em memória sem passar pelo agente.
 
