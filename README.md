@@ -113,7 +113,6 @@ python -m venv .venv
 ### 2. Instalar as Dependências
 
 ```bash
-# Clone este repositório
 pip install -r requirements.txt
 ```
 
