@@ -1,7 +1,5 @@
 import streamlit as st
 
-import tempfile
-from agente import orquestrador
 
 st.set_page_config(
     page_title="Assistente de E-commerce",
@@ -9,7 +7,16 @@ st.set_page_config(
     layout="centered"
 )
 
-from rag import processar_e_salvar_pdf
+import tempfile
+from agente import orquestrador
+import rag
+
+
+@st.cache_resource
+def obter_base_conhecimento():
+    return rag.carregar_vectorstore()
+
+vectorstore = obter_base_conhecimento()
 
 
 st.title("🛒 Assistente de E-commerce")
@@ -57,7 +64,7 @@ with st.sidebar:
                     caminho_temp = tmp_file.name
 
                 # Executa a função de ingestão que dividirá o PDF e salvará no banco vetorial
-                processar_e_salvar_pdf(caminho_temp)
+                rag.processar_e_salvar_pdf(caminho_temp)
                 st.success("✅ Conteúdo do PDF adicionado com sucesso!")
 
 
