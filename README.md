@@ -120,7 +120,7 @@ pip install -r requirements.txt
 Crie um arquivo `.env` no diretório raiz ou configure a chave no seu projeto:
 ```python
 # .env
-GEMINI_API_KEY = "SUA_CHAVE_API_DO_GOOGLE_GEMINI"
+GOOGLE_API_KEY = "SUA_CHAVE_API_DO_GOOGLE_GEMINI"
 ```
 
 ### 5. Executar a aplicação
