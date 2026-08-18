@@ -120,7 +120,7 @@ pip install -r requirements.txt
 link: https://aistudio.google.com
 
 ### 5. Configurar a Chave de API
-Crie um arquivo `.env` no diretório raiz ou configure a chave no seu projeto:
+Crie um arquivo `.env` no diretório raiz e coloque no arquivo:
 ```python
 # .env
 GOOGLE_API_KEY = "SUA_CHAVE_API_DO_GOOGLE_GEMINI"
