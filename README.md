@@ -7,7 +7,7 @@ Este projeto é um assistente virtual inteligente para e-commerce. Ele combina a
 ## 📁 Estrutura do Projeto
 
 ```
-projeto-ecommerce/
+Agent_Ecommerce/
 │
 ├── app.py
 ├── agente.py
@@ -116,14 +116,17 @@ python -m venv .venv
 pip install -r requirements.txt
 ```
 
-### 4. Configurar a Chave de API
+### 4. Obter a Chave de API
+link: https://aistudio.google.com
+
+### 5. Configurar a Chave de API
 Crie um arquivo `.env` no diretório raiz ou configure a chave no seu projeto:
 ```python
 # .env
 GOOGLE_API_KEY = "SUA_CHAVE_API_DO_GOOGLE_GEMINI"
 ```
 
-### 5. Executar a aplicação
+### 6. Executar a aplicação
 ```bash
 streamlit run App.py
 ```
