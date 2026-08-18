@@ -1,50 +1,69 @@
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_community.vectorstores import FAISS
+
 from llm import get_embeddings
 
+
 # =========================
-# CONFIGURAÇÃO DO SPLITTER
+# CONFIGURAÇÃO
 # =========================
+
+CAMINHO_FAISS = "vectorstore"
 
 splitter = RecursiveCharacterTextSplitter(
     chunk_size=1000,
     chunk_overlap=150
 )
 
+
 # =========================
-# BASE VETORIAL INICIAL (FAQ)
+# CARREGAR FAISS
 # =========================
 
-loader = PyPDFLoader("dados/FAQ.pdf")
-documentos = loader.load()
-chunks = splitter.split_documents(documentos)
+def carregar_vectorstore():
 
-vectorstore = FAISS.from_documents(
-    chunks,
-    get_embeddings()
-)
+    embeddings = get_embeddings()
+
+    vectorstore = FAISS.load_local(
+        CAMINHO_FAISS,
+        embeddings,
+        allow_dangerous_deserialization=True
+    )
+
+    return vectorstore
+
+
+vectorstore = carregar_vectorstore()
+
 
 retriever = vectorstore.as_retriever(
     search_kwargs={"k": 5}
 )
 
+
 # =========================
-# ADICIONAR NOVOS PDFS (STREAMLIT)
+# ADICIONAR NOVO PDF
 # =========================
 
 def processar_e_salvar_pdf(caminho_arquivo: str):
-    """Carrega um novo PDF enviado e adiciona seus vetores ao FAISS existente."""
-    loader_novo = PyPDFLoader(caminho_arquivo)
-    novos_docs = loader_novo.load()
-    novos_chunks = splitter.split_documents(novos_docs)
-    
-    # Adiciona os novos chunks na base FAISS em memória
+
+    loader = PyPDFLoader(caminho_arquivo)
+
+    documentos = loader.load()
+
+    novos_chunks = splitter.split_documents(documentos)
+
+    print(f"Páginas adicionadas: {len(documentos)}")
+    print(f"Chunks adicionados: {len(novos_chunks)}")
+
     vectorstore.add_documents(novos_chunks)
+
+    vectorstore.save_local(CAMINHO_FAISS)
 
 
 # =========================
-# BUSCA NO CATÁLOGO
+# BUSCA
 # =========================
 
 def buscar_base(pergunta: str) -> str:

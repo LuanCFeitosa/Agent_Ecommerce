@@ -1,5 +1,5 @@
 import streamlit as st
-from rag import processar_e_salvar_pdf
+
 import tempfile
 from agente import orquestrador
 
@@ -8,6 +8,8 @@ st.set_page_config(
     page_icon="🛒",
     layout="centered"
 )
+
+from rag import processar_e_salvar_pdf
 
 
 st.title("🛒 Assistente de E-commerce")
