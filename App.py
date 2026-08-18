@@ -1,7 +1,7 @@
 import streamlit as st
-
+from rag import processar_e_salvar_pdf
+import tempfile
 from agente import orquestrador
-
 
 st.set_page_config(
     page_title="Assistente de E-commerce",
@@ -13,16 +13,19 @@ st.set_page_config(
 st.title("🛒 Assistente de E-commerce")
 
 st.info("""
-Este assistente utiliza inteligência artificial e RAG
-para consultar o catálogo de produtos.
+Este assistente utiliza inteligência artificial 
+para consultar documentos PDF e responder perguntas.
 
 Você pode perguntar sobre:
 
-📱 Produtos  
-💰 Preços  
-💾 Especificações  
-🔎 Características  
-📦 Informações disponíveis no catálogo
+- Devoluções 
+- Afiliados 
+- Prazos
+- Garantias 
+- Informações Gerais
+
+Também é possível enviar novos PDFs para que o assistente aprenda sobre eles.
+
 """)
 
 
@@ -38,6 +41,22 @@ for mensagem in st.session_state.mensagens:
 
     with st.chat_message(mensagem["role"]):
         st.markdown(mensagem["content"])
+
+with st.sidebar:
+    st.header("📄 Adicionar Conhecimento")
+    pdf_enviado = st.file_uploader("Envie um arquivo PDF", type=["pdf"])
+
+    if pdf_enviado is not None:
+        if st.button("Indexar PDF"):
+            with st.spinner("Processando e salvando na base vetorial..."):
+                # Salva o arquivo temporariamente no disco para o loader do LangChain ler
+                with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp_file:
+                    tmp_file.write(pdf_enviado.read())
+                    caminho_temp = tmp_file.name
+
+                # Executa a função de ingestão que dividirá o PDF e salvará no banco vetorial
+                processar_e_salvar_pdf(caminho_temp)
+                st.success("✅ Conteúdo do PDF adicionado com sucesso!")
 
 
 # =========================
@@ -61,7 +80,7 @@ if pergunta:
 
     with st.chat_message("assistant"):
 
-        with st.spinner("Consultando o catálogo..."):
+        with st.spinner("Consultando a base de conhecimento..."):
 
             resposta = orquestrador.invoke({
                 "input": pergunta

@@ -1,6 +1,6 @@
 from langchain.tools import tool
 
-from rag import buscar_catalogo
+from rag import buscar_base
 
 
 # =========================
@@ -8,15 +8,14 @@ from rag import buscar_catalogo
 # =========================
 
 @tool
-def consultar_catalogo(pergunta: str) -> str:
+def consultar_base(pergunta: str) -> str:
     """
-    Consulta o FAQ da loja.
-
-    Utilize esta ferramenta quando o vendedor perguntar sobre
-    pagamento ou quando tiver dúvidas presente no índice do FAQ.
+    Consulta a base de conhecimento da loja (FAQ, manuais, catálogos e PDFs anexados).
+    Utilize esta ferramenta sempre que o usuário perguntar sobre produtos,
+    preços, pagamento, especificações ou qualquer dúvida presente nos documentos da loja.
     """
 
-    return buscar_catalogo(pergunta)
+    return buscar_base(pergunta)
 
 
 # =========================
@@ -26,5 +25,5 @@ def consultar_catalogo(pergunta: str) -> str:
 def criar_ferramentas():
 
     return [
-        consultar_catalogo
+        consultar_base
     ]

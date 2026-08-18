@@ -3,20 +3,8 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_community.vectorstores import FAISS
 from llm import get_embeddings
 
-
 # =========================
-# CARREGAMENTO DO PDF
-# =========================
-
-loader = PyPDFLoader("dados/FAQ.pdf")
-
-documentos = loader.load()
-
-print(f"Quantidade de páginas: {len(documentos)}")
-
-
-# =========================
-# DIVISÃO DOS DOCUMENTOS
+# CONFIGURAÇÃO DO SPLITTER
 # =========================
 
 splitter = RecursiveCharacterTextSplitter(
@@ -24,35 +12,42 @@ splitter = RecursiveCharacterTextSplitter(
     chunk_overlap=150
 )
 
+# =========================
+# BASE VETORIAL INICIAL (FAQ)
+# =========================
+
+loader = PyPDFLoader("dados/FAQ.pdf")
+documentos = loader.load()
 chunks = splitter.split_documents(documentos)
-
-print(f"Quantidade de chunks: {len(chunks)}")
-
-
-# =========================
-# BANCO VETORIAL
-# =========================
 
 vectorstore = FAISS.from_documents(
     chunks,
     get_embeddings()
 )
 
-
-# =========================
-# RETRIEVER
-# =========================
-
 retriever = vectorstore.as_retriever(
     search_kwargs={"k": 5}
 )
+
+# =========================
+# ADICIONAR NOVOS PDFS (STREAMLIT)
+# =========================
+
+def processar_e_salvar_pdf(caminho_arquivo: str):
+    """Carrega um novo PDF enviado e adiciona seus vetores ao FAISS existente."""
+    loader_novo = PyPDFLoader(caminho_arquivo)
+    novos_docs = loader_novo.load()
+    novos_chunks = splitter.split_documents(novos_docs)
+    
+    # Adiciona os novos chunks na base FAISS em memória
+    vectorstore.add_documents(novos_chunks)
 
 
 # =========================
 # BUSCA NO CATÁLOGO
 # =========================
 
-def buscar_catalogo(pergunta: str) -> str:
+def buscar_base(pergunta: str) -> str:
 
     documentos_relevantes = retriever.invoke(pergunta)
 
