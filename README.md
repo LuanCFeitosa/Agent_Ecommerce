@@ -7,7 +7,7 @@ Este projeto é um assistente virtual inteligente para e-commerce. Ele combina a
 ## 📁 Estrutura do Projeto
 
 ```
-projeto-ecommerce/
+Agent_Ecommerce/
 │
 ├── app.py
 ├── agente.py
@@ -17,6 +17,9 @@ projeto-ecommerce/
 ├── my_keys.py
 ├── my_models.py
 │
+└── vectorstore/
+│   └── index.faiss
+│   └── index.pkl
 └── dados/
     └── catalogo.pdf
 
@@ -66,7 +69,7 @@ O sistema opera com dois fluxos **distintos e complementares** e interface
 ```
 
 1. **Fluxo de Ingestion (Upload Dinâmico):**
-   * O arquivo `dados/FAQ.pdf` é processado na inicialização.
+   * O arquivo `dados/FAQ.pdf` já foi processado pela `criar_vectorstore` e salva na pasta `vecstore`.
    * O usuário pode enviar novos PDFs através do `file_uploader`.
    * O arquivo é divido em *chunks* (`RecursiveCharacterTextSplitter`), transformado em vetores (`GoogleGenerativeAIEmbeddings`) e adicionado ao índice **FAISS** em memória sem passar pelo agente.
 
@@ -110,18 +113,20 @@ python -m venv .venv
 ### 2. Instalar as Dependências
 
 ```bash
-# Clone este repositório
 pip install -r requirements.txt
 ```
 
-### 4. Configurar a Chave de API
-Crie um arquivo `.env` no diretório raiz ou configure a chave no seu projeto:
+### 4. Obter a Chave de API
+link: https://aistudio.google.com
+
+### 5. Configurar a Chave de API
+Crie um arquivo `.env` no diretório raiz e coloque no arquivo:
 ```python
 # .env
-GEMINI_API_KEY = "SUA_CHAVE_API_DO_GOOGLE_GEMINI"
+GOOGLE_API_KEY = "SUA_CHAVE_API_DO_GOOGLE_GEMINI"
 ```
 
-### 5. Executar a aplicação
+### 6. Executar a aplicação
 ```bash
 streamlit run App.py
 ```
@@ -137,7 +142,16 @@ O agente responde a dúvidas gerais baseadas nos documentos indexados:
 * *"Como funciona a política de troca e devolução?"*
 ---
 
-## 💬 Exemplos de Respostas Geradas
+## 💬 Exemplos do APP e de Respostas Geradas
+
+<img width="1302" height="691" alt="image" src="https://github.com/user-attachments/assets/816b0528-bdb7-4c8e-a025-5e9be4d6ad9c" />
+
+<img width="1303" height="681" alt="image" src="https://github.com/user-attachments/assets/9f4e495c-d236-43cb-8d99-a8c35ab5295c" />
+
+## Link da Cloud:
+* https://agentecommerceoci.streamlit.app
+
+
 
 
 
